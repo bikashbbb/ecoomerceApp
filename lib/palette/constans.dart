@@ -1,0 +1,1 @@
+// will have a lot of variables in enum

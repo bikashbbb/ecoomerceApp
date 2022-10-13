@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "379683950331",
+    "project_id": "herbs-sell-center",
+    "storage_bucket": "herbs-sell-center.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379683950331:android:876ea0b03a0102d1e46a5e",
+        "android_client_info": {
+          "package_name": "com.example.herb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379683950331-usmtqq997gidndrctm7p6elo8f3q1sr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsvxAPqBlAJKK1FlqUrvLd8_pTmu_sx6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379683950331-usmtqq997gidndrctm7p6elo8f3q1sr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
