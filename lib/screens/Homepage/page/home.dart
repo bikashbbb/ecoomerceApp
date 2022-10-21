@@ -1,24 +1,45 @@
 // this will be our starting point of the app
 // app name: Herbs sells center
-
+// todays: work home page finish 2) signup complete
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:herb/palette/colors.dart';
 import 'package:herb/palette/decorators.dart';
 import 'package:herb/palette/icons.dart';
 import 'package:herb/palette/sizes.dart';
+import 'package:herb/screens/Category/firebase/fire.dart';
+import 'package:herb/screens/Category/pages/entry.dart';
+import 'package:herb/screens/Homepage/commonWidgets/category.dart';
+import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/Homepage/page/bottomnav.dart';
 import 'package:sizer/sizer.dart';
 
 // lets build the fucking app first !
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends ConsumerWidget {
+  HomePage({Key? key}) : super(key: key);
+
+  final List _pages = [
+    const ProductPage(),
+    const CategoryPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final con = ref.watch(navController);
+    return Scaffold(
+        bottomNavigationBar: const SizedBox(height: 60, child: BottomNav()),
+        backgroundColor: mainC,
+        body: _pages[con.navIndex]);
+  }
+}
+
+class ProductPage extends StatelessWidget {
+  const ProductPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SizedBox(height: 60, child: const BottomNav()),
-      backgroundColor: mainC,
       body: DefaultTabController(
           length: 1,
           child: NestedScrollView(
@@ -65,18 +86,17 @@ class HomePage extends StatelessWidget {
                     ),
                     backgroundColor: mainC,
                     leadingWidth: 25.sp,
-                    leading:
-                        iconMaker(myAccIcon, 30.sp, secC),
+                    leading: iconMaker(myAccIcon, 30.sp, secC),
                     title: Text(
                       "User",
                       style: secheader,
                     ),
                     actions: [
-                      iconMaker(Icons.favorite_border, iconFont, secC),
+                      favouriteS(),
                       SizedBox(
                         width: 3.w,
                       ),
-                      iconMaker(Icons.shopping_basket, iconFont, secC),
+                      shop(),
                       SizedBox(
                         width: 5.w,
                       )
@@ -84,24 +104,45 @@ class HomePage extends StatelessWidget {
                   ),
                 ];
               },
-              body: TabBarView(
-                children: [_categoryStore()],
-              ))),
+              body: _categoryStore())),
     );
   }
 
   Widget _categoryStore() {
+    final fire = ItemsPerCat();
     // this will be a grid view 3 ta wala .. data from firebase
-    return Column(
-      children: [
-        // mathi chai euta logo janxa pasal ko !
-        Row(
-          children: [
-            Expanded(child: banner()),
-          ],
-        ),
-        // we will have a fucking grid view here cat ko lagi 3 taaaa
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // mathi chai euta logo janxa pasal ko !
+          Row(
+            children: [
+              Expanded(child: banner()),
+            ],
+          ),
+          // we will have a fucking grid view here cat ko lagi 3 taaaa
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 1.w),
+                child: Text(
+                  "Category",
+                  style: secheader,
+                ),
+              ),
+              const SizedBox(
+                width: 2,
+              ),
+              Icon(
+                Icons.double_arrow_outlined,
+                size: iconFont,
+              )
+            ],
+          ),
+          HomeCategory(),
+          ProductForYou(fire.getProduct("Brand"))
+        ],
+      ),
     );
   }
 }

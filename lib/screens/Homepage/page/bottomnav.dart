@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:herb/palette/colors.dart';
 import 'package:herb/palette/icons.dart';
 import 'package:herb/palette/sizes.dart';
+import 'package:herb/screens/Homepage/controller/navbarcontroller.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class BottomNav extends StatefulWidget {
+final navController =
+    ChangeNotifierProvider<NavController>(((ref) => NavController()));
+
+class BottomNav extends ConsumerWidget {
   const BottomNav({Key? key}) : super(key: key);
 
   @override
-  State<BottomNav> createState() => _BottomNavState();
-}
-
-class _BottomNavState extends State<BottomNav> {
-  ValueNotifier activeIndex = ValueNotifier<int>(0);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final con = ref.watch(navController);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: BottomNavigationBar(
+          onTap: (index) {
+            //controller.
+            con.chnageNavIndex(index);
+          },
           selectedItemColor: thrdC,
-          currentIndex: 0,
+          currentIndex: con.navIndex,
           items: [
             BottomNavigationBarItem(
                 icon: iconMaker(homeIcon, iconFont, secC),
                 activeIcon: iconMaker(homeIcon, iconFont, thrdC),
                 label: "Home"),
+                
             BottomNavigationBarItem(
                 icon: iconMaker(catIcon, iconFont, secC),
                 label: "Category",
