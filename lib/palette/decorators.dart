@@ -43,3 +43,8 @@ TextStyle priceS = TextStyle(
 
 TextStyle prevPriceS =
     TextStyle(decoration: TextDecoration.lineThrough, fontSize: 9.sp);
+
+BoxDecoration pForYou = BoxDecoration(
+  gradient:
+      LinearGradient(colors: [Color.fromARGB(255, 230, 209, 22), Colors.white]),
+);

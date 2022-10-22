@@ -109,11 +109,7 @@ class _ProductForYou extends ConsumerWidget {
               "wholeSalePrice",
               'Tea')), */
           // yo query ma watch rakhna tw parxa
-          ProductForYou(fireobj.getProduct(con.catSelected)),
-          Builder(builder: (ctx) {
-            print(con.catSelected);
-            return SizedBox();
-          })
+          Expanded(child: ProductForYou(fireobj.getProduct(con.catSelected))),
         ],
       ),
     );
@@ -133,8 +129,11 @@ class ProductForYou extends ConsumerWidget {
           /* snaps.docs[index]
           final product = Product.toObj(); */
           return GridView.builder(
+              primary: false, // add this line
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
-              itemCount: 2,
+              itemCount: 4,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 0.7, crossAxisCount: 2),
               itemBuilder: (ctx, index) {

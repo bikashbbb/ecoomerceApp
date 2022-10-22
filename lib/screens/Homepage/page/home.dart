@@ -104,45 +104,59 @@ class ProductPage extends StatelessWidget {
                   ),
                 ];
               },
-              body: _categoryStore())),
+              body: _categoryStore(context))),
     );
   }
 
-  Widget _categoryStore() {
+  Widget _categoryStore(BuildContext ctx) {
     final fire = ItemsPerCat();
     // this will be a grid view 3 ta wala .. data from firebase
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          // mathi chai euta logo janxa pasal ko !
-          Row(
-            children: [
-              Expanded(child: banner()),
-            ],
-          ),
-          // we will have a fucking grid view here cat ko lagi 3 taaaa
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 1.w),
-                child: Text(
-                  "Category",
-                  style: secheader,
+    return Scaffold(
+        body: Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // mathi chai euta logo janxa pasal ko !
+            Row(
+              children: [
+                Expanded(child: banner()),
+              ],
+            ),
+            // we will have a fucking grid view here cat ko lagi 3 taaaa
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 1.w),
+                  child: Text(
+                    "Category",
+                    style: secheader,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 2,
-              ),
-              Icon(
-                Icons.double_arrow_outlined,
-                size: iconFont,
-              )
-            ],
-          ),
-          HomeCategory(),
-          ProductForYou(fire.getProduct("Brand"))
-        ],
+                const SizedBox(
+                  width: 2,
+                ),
+                Icon(
+                  Icons.double_arrow_outlined,
+                  size: iconFont,
+                )
+              ],
+            ),
+            HomeCategory(),
+            Container(
+                width: 44.w,
+                alignment: Alignment.center,
+                decoration: pForYou,
+                child: Text(
+                  "Products For You",
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp),
+                )),
+            ProductForYou(fire.getProduct("Brand"))
+          ],
+        ),
       ),
-    );
+    ));
   }
 }

@@ -24,15 +24,17 @@ class HomeCategory extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 12.0),
       child: SizedBox(
           // color: secC,
-          height: 44.h,
+          height: 40.h,
           width: MediaQuery.of(context).size.width,
           // yeha stream builder use garera firebase stream hanna parcha !
           child: FirestoreQueryBuilder(
               query: obj.Query,
               builder: (ctx, snaps, child) {
                 return GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     itemCount: 9,
+                    shrinkWrap: true,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: 1.5, crossAxisCount: 3),
