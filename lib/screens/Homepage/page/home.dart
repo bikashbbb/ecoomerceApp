@@ -11,8 +11,8 @@ import 'package:herb/palette/sizes.dart';
 import 'package:herb/screens/Category/firebase/fire.dart';
 import 'package:herb/screens/Category/pages/entry.dart';
 import 'package:herb/screens/Homepage/commonWidgets/category.dart';
-import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/Homepage/page/bottomnav.dart';
+import 'package:herb/screens/myorders/page/orders.dart';
 import 'package:sizer/sizer.dart';
 
 // lets build the fucking app first !
@@ -22,6 +22,7 @@ class HomePage extends ConsumerWidget {
   final List _pages = [
     const ProductPage(),
     const CategoryPage(),
+    const MyOrders()
   ];
 
   @override
@@ -30,7 +31,9 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
         bottomNavigationBar: const SizedBox(height: 60, child: BottomNav()),
         backgroundColor: mainC,
-        body: _pages[con.navIndex]);
+        body: Builder(builder: (ctx) {
+          return _pages[con.navIndex];
+        }));
   }
 }
 
@@ -55,25 +58,9 @@ class ProductPage extends StatelessWidget {
                         Tab(
                           // textfield
                           child: Padding(
-                            padding: EdgeInsets.only(left: 12.w, right: 12.w),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.only(bottom: 1.h),
-                                  child:
-                                      iconMaker(Icons.search, iconFont, secC),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: secC, width: 1),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: secC, width: 1.0),
-                                ),
-                                hintText: 'Search by Keyword',
-                              ),
-                            ),
-                          ),
+                              padding: EdgeInsets.only(left: 12.w, right: 12.w),
+                              child: textFieldMaker("Search by Keyword",
+                                  TextEditingController())),
                         ),
                       ],
                     ),

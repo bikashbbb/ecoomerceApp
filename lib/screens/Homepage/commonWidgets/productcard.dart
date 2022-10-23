@@ -23,8 +23,8 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(
-              height: 9,
+            SizedBox(
+              height: 1.h,
             ),
             Image.network(
               product.imageUrl,

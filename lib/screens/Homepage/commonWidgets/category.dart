@@ -150,3 +150,42 @@ class SortButton extends ConsumerWidget {
     );
   }
 }
+
+Widget textFieldMaker(String hint,TextEditingController con, {bool noIcon = true}) {
+  return TextField(
+    controller:con ,
+    keyboardType: noIcon ? TextInputType.text : TextInputType.number,
+    decoration: InputDecoration(
+      prefixIcon: noIcon
+          ? Padding(
+              padding: EdgeInsets.only(bottom: 1.h),
+              child: iconMaker(Icons.search, iconFont, secC),
+            )
+          : const SizedBox(),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: secC, width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: secC, width: 1.0),
+      ),
+      hintText: hint,
+    ),
+  );
+}
+
+class MainButton extends StatelessWidget {
+  const MainButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: secC,
+      child: SizedBox(
+          height: 12.h,
+          child: Icon(
+            Icons.done_all,
+            color: thrdC,
+          )),
+    );
+  }
+}

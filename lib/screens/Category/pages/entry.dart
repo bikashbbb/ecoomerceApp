@@ -92,25 +92,27 @@ class _ProductForYou extends ConsumerWidget {
     final con = ref.watch(catref);
     return Scaffold(
       // firebase use garne tw honi yesma ! simple
-      body: Column(
-        children: [
-          const SortButton(),
-          /* ProductCard(Product(
-              "1000",
-              "id",
-              "https://firebasestorage.googleapis.com/v0/b/herbs-sell-center.appspot.com/o/laptop.jpg?alt=media&token=430255de-e914-4f40-914e-afce371a0ef4",
-              "Tea",
-              "800",
-              "brand",
-              false,
-              "0",
-              "type",
-              "typeOfPackaging",
-              "wholeSalePrice",
-              'Tea')), */
-          // yo query ma watch rakhna tw parxa
-          Expanded(child: ProductForYou(fireobj.getProduct(con.catSelected))),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SortButton(),
+            /* ProductCard(Product(
+                "1000",
+                "id",
+                "https://firebasestorage.googleapis.com/v0/b/herbs-sell-center.appspot.com/o/laptop.jpg?alt=media&token=430255de-e914-4f40-914e-afce371a0ef4",
+                "Tea",
+                "800",
+                "brand",
+                false,
+                "0",
+                "type",
+                "typeOfPackaging",
+                "wholeSalePrice",
+                'Tea')), */
+            // yo query ma watch rakhna tw parxa
+            ProductForYou(fireobj.getProduct(con.catSelected)),
+          ],
+        ),
       ),
     );
   }

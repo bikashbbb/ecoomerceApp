@@ -5,6 +5,8 @@ import 'package:herb/palette/icons.dart';
 import 'package:herb/palette/sizes.dart';
 import 'package:herb/screens/Homepage/controller/navbarcontroller.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:herb/screens/Homepage/firebase/firebase.dart';
+import 'package:herb/screens/verifyPhone/page/verify.dart';
 
 final navController =
     ChangeNotifierProvider<NavController>(((ref) => NavController()));
@@ -21,7 +23,13 @@ class BottomNav extends ConsumerWidget {
         child: BottomNavigationBar(
           onTap: (index) {
             //controller.
-            con.chnageNavIndex(index);
+            if (index != 2) {
+              con.chnageNavIndex(index);
+            } else {
+              LoginDetails.isLoggedIn()
+                  ? con.chnageNavIndex(index)
+                  : SignUp().signup(context);
+            }
           },
           selectedItemColor: thrdC,
           currentIndex: con.navIndex,
@@ -30,7 +38,6 @@ class BottomNav extends ConsumerWidget {
                 icon: iconMaker(homeIcon, iconFont, secC),
                 activeIcon: iconMaker(homeIcon, iconFont, thrdC),
                 label: "Home"),
-                
             BottomNavigationBarItem(
                 icon: iconMaker(catIcon, iconFont, secC),
                 label: "Category",

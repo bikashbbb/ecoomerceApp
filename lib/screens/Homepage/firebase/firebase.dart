@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class FireCategories {
@@ -26,5 +27,14 @@ class FireImages {
         .then((value) => print(value));
     /* print(imageUrl);
     return imageUrl; */
+  }
+}
+
+class LoginDetails {
+ static bool isLoggedIn()  {
+    if ( FirebaseAuth.instance.currentUser == null) {
+      return false;
+    }
+    return true;
   }
 }
