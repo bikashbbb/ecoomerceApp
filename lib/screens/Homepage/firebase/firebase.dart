@@ -31,10 +31,27 @@ class FireImages {
 }
 
 class LoginDetails {
- static bool isLoggedIn()  {
-    if ( FirebaseAuth.instance.currentUser == null) {
+  static bool isLoggedIn() {
+    if (FirebaseAuth.instance.currentUser == null) {
       return false;
     }
     return true;
+  }
+
+  static get userid {
+    return FirebaseAuth.instance.currentUser!.uid.toString();
+  }
+}
+
+class ProductFuncs {
+  final String _col = "cart";
+  //
+  Future<void> addToCart(String uid, String pid) async {
+    return await FireCategories.firestore
+        .collection(_col)
+        .doc(uid)
+        .collection("all")
+        .doc()
+        .set({"pId": pid});
   }
 }

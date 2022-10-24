@@ -10,6 +10,7 @@ import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/Homepage/models/models.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutterfire_ui/firestore.dart';
+import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 // what next ? category page garne ava ....
 class HomeCategory extends ConsumerWidget {
@@ -24,7 +25,6 @@ class HomeCategory extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 12.0),
       child: SizedBox(
           // color: secC,
-          height: 40.h,
           width: MediaQuery.of(context).size.width,
           // yeha stream builder use garera firebase stream hanna parcha !
           child: FirestoreQueryBuilder(
@@ -151,9 +151,10 @@ class SortButton extends ConsumerWidget {
   }
 }
 
-Widget textFieldMaker(String hint,TextEditingController con, {bool noIcon = true}) {
+Widget textFieldMaker(String hint, TextEditingController con,
+    {bool noIcon = true}) {
   return TextField(
-    controller:con ,
+    controller: con,
     keyboardType: noIcon ? TextInputType.text : TextInputType.number,
     decoration: InputDecoration(
       prefixIcon: noIcon
@@ -179,13 +180,13 @@ class MainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
+      radius: 30,
       backgroundColor: secC,
       child: SizedBox(
-          height: 12.h,
           child: Icon(
-            Icons.done_all,
-            color: thrdC,
-          )),
+        Icons.done_all,
+        color: thrdC,
+      )),
     );
   }
 }

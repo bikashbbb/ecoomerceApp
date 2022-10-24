@@ -11,19 +11,19 @@ import 'package:herb/palette/sizes.dart';
 import 'package:herb/screens/Category/firebase/fire.dart';
 import 'package:herb/screens/Category/pages/entry.dart';
 import 'package:herb/screens/Homepage/commonWidgets/category.dart';
+import 'package:herb/screens/Homepage/controller/appbar.dart';
 import 'package:herb/screens/Homepage/page/bottomnav.dart';
 import 'package:herb/screens/myorders/page/orders.dart';
 import 'package:sizer/sizer.dart';
+
+final homeRef =
+    ChangeNotifierProvider<HomeControlls>(((ref) => HomeControlls()));
 
 // lets build the fucking app first !
 class HomePage extends ConsumerWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final List _pages = [
-    const ProductPage(),
-    const CategoryPage(),
-    const MyOrders()
-  ];
+  final List _pages = [ProductPage(), const CategoryPage(), const MyOrders()];
 
   @override
   Widget build(BuildContext context, ref) {
@@ -37,11 +37,12 @@ class HomePage extends ConsumerWidget {
   }
 }
 
-class ProductPage extends StatelessWidget {
-  const ProductPage({Key? key}) : super(key: key);
+class ProductPage extends ConsumerWidget {
+  ProductPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final con = ref.watch(homeRef);
     return Scaffold(
       body: DefaultTabController(
           length: 1,
@@ -75,7 +76,7 @@ class ProductPage extends StatelessWidget {
                     leadingWidth: 25.sp,
                     leading: iconMaker(myAccIcon, 30.sp, secC),
                     title: Text(
-                      "User",
+                      con.user,
                       style: secheader,
                     ),
                     actions: [
@@ -140,7 +141,7 @@ class ProductPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp),
                 )),
-            ProductForYou(fire.getProduct("Brand"))
+            ProductForYou(fire.getProduct("Brand"),)
           ],
         ),
       ),

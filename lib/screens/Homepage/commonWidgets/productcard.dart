@@ -1,20 +1,40 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import 'package:herb/palette/colors.dart';
 import 'package:herb/palette/decorators.dart';
+import 'package:herb/screens/Homepage/controller/appbar.dart';
 import 'package:sizer/sizer.dart';
 import '../../Category/models/product.dart';
 
-class ProductCard extends StatelessWidget {
+final productControlls =
+    ChangeNotifierProvider<ProductControlls>(((ref) => ProductControlls()));
+
+class ProductCard extends StatefulWidget {
   final Product product;
+  final Function ontap;
+  int? index;
 
-  const ProductCard(this.product, {Key? key}) : super(key: key);
+  ProductCard(
+    this.product,
+    this.ontap, {
+    this.index,
+    Key? key,
+  }) : super(key: key);
 
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Container(
-        width: 200,
+        // width: 200.h,
         //height: 30.h,
         decoration: BoxDecoration(
             color: mainC,
@@ -23,18 +43,16 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              height: 1.h,
-            ),
-            Image.network(
-              product.imageUrl,
-              width: 281.0,
-              height: 191.0,
-              fit: BoxFit.contain,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                widget.product.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(2),
-              child: Text(product.name,
+              child: Text(widget.product.name,
                   style: productTitleS,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
@@ -45,18 +63,34 @@ class ProductCard extends StatelessWidget {
                 children: [
                   const Text("Nrs. "),
                   Text(
-                    product.price,
+                    widget.product.price,
                     style: priceS,
                   ),
                   //const Expanded(child: SizedBox()),
-                  Text(product.cutPrice, style: prevPriceS),
+                  Text(widget.product.cutPrice, style: prevPriceS),
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Icon(Icons.favorite_border),
+              children: [
+                InkWell(
+                    onTap: () async {
+                      widget.ontap();
+                      setState(() {
+                        _clickedIndex = widget.index;
+                      });
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        setState(() {
+                          _clickedIndex = null;
+                        });
+                      });
+                    },
+                    child: ShakeWidget(
+                        autoPlay: _clickedIndex == widget.index ? true : false,
+                        shakeConstant: ShakeHorizontalConstant1(),
+                        duration: const Duration(milliseconds: 3),
+                        child: const Icon(Icons.add_shopping_cart))),
               ],
             )
           ],
@@ -65,4 +99,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-// code garnu vanda agadi plan garera gareko ramro 
+// code garnu vanda agadi plan garera gareko ramro
+
+num? _clickedIndex;

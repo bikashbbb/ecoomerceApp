@@ -125,6 +125,7 @@ class ProductForYou extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final con = ref.watch(productControlls);
     return FirestoreQueryBuilder(
         query: query,
         builder: (ctx, snaps, child) {
@@ -142,7 +143,9 @@ class ProductForYou extends ConsumerWidget {
                 if (snaps.hasData) {
                   final product = Product.toObj(
                       snaps.docs[0].data()! as Map, snaps.docs[0].id);
-                  return ProductCard(product);
+                  return ProductCard(product,() {
+                    con.addToCart(product);
+                  },index: index);
                 }
                 //loader
                 return const SizedBox();
