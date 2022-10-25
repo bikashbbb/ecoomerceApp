@@ -47,11 +47,14 @@ class ProductFuncs {
   final String _col = "cart";
   //
   Future<void> addToCart(String uid, String pid) async {
-    return await FireCategories.firestore
-        .collection(_col)
-        .doc(uid)
-        .collection("all")
-        .doc()
-        .set({"pId": pid});
+    // paila check if the pid is init or not !
+    final batch = FirebaseFirestore.instance.batch();
+
+    DocumentReference ref = FireCategories.firestore.collection(_col).doc(uid);
+
+    batch.set(ref, {"itemcount": 1});
+    batch.set(ref.collection("all").doc(), {"pid": pid});
+
+    await batch.commit();
   }
 }

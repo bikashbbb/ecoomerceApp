@@ -10,7 +10,6 @@ import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/Homepage/models/models.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutterfire_ui/firestore.dart';
-import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 // what next ? category page garne ava ....
 class HomeCategory extends ConsumerWidget {

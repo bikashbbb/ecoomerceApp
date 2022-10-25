@@ -136,16 +136,16 @@ class ProductForYou extends ConsumerWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
-              itemCount: 4,
+              itemCount: snaps.docs.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 0.7, crossAxisCount: 2),
               itemBuilder: (ctx, index) {
                 if (snaps.hasData) {
                   final product = Product.toObj(
                       snaps.docs[0].data()! as Map, snaps.docs[0].id);
-                  return ProductCard(product,() {
+                  return ProductCard(product, () {
                     con.addToCart(product);
-                  },index: index);
+                  }, index: index);
                 }
                 //loader
                 return const SizedBox();

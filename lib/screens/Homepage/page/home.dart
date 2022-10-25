@@ -13,6 +13,7 @@ import 'package:herb/screens/Category/pages/entry.dart';
 import 'package:herb/screens/Homepage/commonWidgets/category.dart';
 import 'package:herb/screens/Homepage/controller/appbar.dart';
 import 'package:herb/screens/Homepage/page/bottomnav.dart';
+import 'package:herb/screens/mycart/pages/cart.dart';
 import 'package:herb/screens/myorders/page/orders.dart';
 import 'package:sizer/sizer.dart';
 
@@ -84,7 +85,14 @@ class ProductPage extends ConsumerWidget {
                       SizedBox(
                         width: 3.w,
                       ),
-                      shop(),
+                      InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (builder) {
+                              return  CartPage();
+                            }));
+                          },
+                          child: shop()),
                       SizedBox(
                         width: 5.w,
                       )
@@ -141,7 +149,9 @@ class ProductPage extends ConsumerWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp),
                 )),
-            ProductForYou(fire.getProduct("Brand"),)
+            ProductForYou(
+              fire.getProduct("Brand"),
+            )
           ],
         ),
       ),
