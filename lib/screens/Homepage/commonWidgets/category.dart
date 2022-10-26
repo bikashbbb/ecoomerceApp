@@ -30,6 +30,7 @@ class HomeCategory extends ConsumerWidget {
               query: obj.Query,
               builder: (ctx, snaps, child) {
                 return GridView.builder(
+                    key: PageStorageKey(1),
                     physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     itemCount: 9,
@@ -173,19 +174,15 @@ Widget textFieldMaker(String hint, TextEditingController con,
   );
 }
 
-
-Widget textFieldMaker2(String hint, TextEditingController con,
-IconData email
-  ) {
+Widget textFieldMaker2(String hint, TextEditingController con, IconData email) {
   return TextField(
     controller: con,
-    keyboardType:TextInputType.text,
+    keyboardType: TextInputType.text,
     decoration: InputDecoration(
-      prefixIcon:Padding(
-              padding: EdgeInsets.only(bottom: 1.h),
-              child: iconMaker(email, iconFont, secC),
-            ),
-         
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(bottom: 1.h),
+        child: iconMaker(email, iconFont, secC),
+      ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: secC, width: 1),
       ),

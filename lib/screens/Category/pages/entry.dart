@@ -111,7 +111,8 @@ class _ProductForYou extends ConsumerWidget {
                 "wholeSalePrice",
                 'Tea')), */
             // yo query ma watch rakhna tw parxa
-            ProductForYou(fireobj.getProduct(con.catSelected)),
+            ProductForYou(
+                fireobj.getProduct(con.catSelected), PageStorageKey("")),
           ],
         ),
       ),
@@ -119,26 +120,39 @@ class _ProductForYou extends ConsumerWidget {
   }
 }
 
-class ProductForYou extends ConsumerWidget {
+class ProductForYou extends StatefulWidget {
   final Query query;
   final bool isInCart;
-  const ProductForYou(this.query, {Key? key, this.isInCart = false})
+  final PageStorageKey value;
+  const ProductForYou(this.query, this.value, {Key? key, this.isInCart = false})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final con = ref.watch(productControlls);
+  State<ProductForYou> createState() => _ProductForYouState();
+}
+
+class _ProductForYouState extends State<ProductForYou>
+    with AutomaticKeepAliveClientMixin<ProductForYou> {
+  @override
+  Widget build(BuildContext context) {
+    //final con = ref.watch(productControlls);
+    super.build(context);
+
     return FirestoreQueryBuilder(
-        query: query,
+        key: widget.value,
+        query: widget.query,
         builder: (ctx, snaps, child) {
           /* snaps.docs[index]
           final product = Product.toObj(); */
           return GridView.builder(
+              key: PageStorageKey(0),
+
+              //key: widget.value,
               primary: false, // add this line
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              //physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
-              itemCount: snaps.docs.length,
+              itemCount: 6,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 0.7, crossAxisCount: 2),
               itemBuilder: (ctx, index) {
@@ -155,12 +169,12 @@ class ProductForYou extends ConsumerWidget {
                     child: ProductCard(
                       product,
                       () {
-                        isInCart
+                        /* isInCart
                             ? con.removeFcart(product)
-                            : con.addToCart(product);
+                            : con.addToCart(product); */
                       },
                       index: index,
-                      isCartPage: isInCart,
+                      isCartPage: widget.isInCart,
                     ),
                   );
                 }
@@ -169,4 +183,7 @@ class ProductForYou extends ConsumerWidget {
               });
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

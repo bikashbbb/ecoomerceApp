@@ -48,6 +48,7 @@ dependencies:
   flutter_shake_animated: ^0.0.5
   empty_widget: ^0.0.5
   quantity_input: ^1.0.2
+  scrollable_positioned_list: any
 
 
 

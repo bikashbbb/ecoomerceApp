@@ -3,16 +3,17 @@ import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/buyNow/models/models.dart';
 
 class BuyFirebase {
-  Future<bool> onBuyNow(String pid, OrderDetails orderDetails) async {
+  Future<bool> onBuyNow(OrderDetails orderDetails) async {
     // check quanity it cannot be zero''
     // save the location also !
     try {
       final batch = FirebaseFirestore.instance.batch();
-      // save phone email and location bitch next time tei use garne !
-      // see if the prev location and it was not equal
-      
-      final orderRef =
-          FireCategories.firestore.collection("allproducts").doc(pid);
+/*       final locationRef =
+          FireCategories.firestore.collection("users").doc(LoginDetails.userid);
+ */ // save phone email and location bitch next time tei use garne !
+      final orderRef = FireCategories.firestore
+          .collection("allproducts")
+          .doc(orderDetails.productId);
 
       final orderDetailsRef =
           FireCategories.firestore.collection("OrderDetails").doc();
@@ -22,6 +23,10 @@ class BuyFirebase {
       });
 
       batch.set(orderDetailsRef, OrderDetails.toMap(orderDetails));
+
+      /* batch.set(locationRef, {
+        orderDetails.location
+      }); */
       await batch.commit();
       return true;
     } on Exception catch (e) {

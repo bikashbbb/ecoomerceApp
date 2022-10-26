@@ -5,7 +5,9 @@ class OrderDetails {
   bool isDelievered;
   DateTime orderedTime;
   int delieveryCharge;
+  String email;
   DateTime? delieveredTime;
+  String? location;
   int phoneNum;
 
   OrderDetails(
@@ -15,7 +17,9 @@ class OrderDetails {
       this.isDelievered,
       this.orderedTime,
       this.delieveredTime,
-      this.delieveryCharge,this.phoneNum);
+      this.delieveryCharge,
+      this.phoneNum,
+      this.location,this.email);
 
   static Map<String, dynamic> toMap(OrderDetails orderDetails) {
     return {
@@ -25,7 +29,8 @@ class OrderDetails {
       "isDelievered": orderDetails.isDelievered,
       "orderedTime": orderDetails.orderedTime,
       "delieveredTime": orderDetails.delieveredTime,
-      "delieveryCharge": orderDetails.delieveryCharge
+      "delieveryCharge": orderDetails.delieveryCharge,
+      "location": orderDetails.location
     };
   }
 }

@@ -8,7 +8,7 @@ import 'package:herb/screens/buyNow/page/confirmbuy.dart';
 
 class BuyControlls {
   void onBuyNowCLicked(TextEditingController quantity, BuildContext context,
-      String pid, OrderDetails orderDetails,Product product) async {
+      String pid, OrderDetails orderDetails, Product product) async {
     // check for the quantity shit if its zero also min order should match quantity!
     if (int.parse(quantity.text) == 0) {
       showErrorDialog(context, "Quantity cannot be zero");
@@ -16,7 +16,7 @@ class BuyControlls {
     else {
       orderDetails.quantity = quantity.text;
       Navigator.of(context).push(MaterialPageRoute(builder: (builder) {
-        return ConfirmBuy(orderDetails,product);
+        return ConfirmBuy(orderDetails, product);
       }));
       /* bool isCreated = await _buyFirebase.onBuyNow(pid, orderDetails);
       if (isCreated) {
@@ -29,9 +29,17 @@ class BuyControlls {
   }
 }
 
-class ConfirmBuyControlls{
+class ConfirmBuyControlls {
+  BuyFirebase _buyFirebase = BuyFirebase();
 
-  static void onConfirmClicked(OrderDetails orderDetails, Product product){
-    
+  void onConfirmClicked(
+      OrderDetails orderDetails, Product product, BuildContext context)async {
+    showLoaderDialog(context, "Creating Order");
+  bool result = await  _buyFirebase.onBuyNow(orderDetails);
+  if(result){
+    // goto homepage and a snackbar !
+  }else{
+    // show error msg 
+  }
   }
 }

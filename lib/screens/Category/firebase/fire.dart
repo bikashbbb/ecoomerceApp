@@ -14,4 +14,8 @@ class ItemsPerCat {
   Query getProduct(String catname) {
    return FireCategories.firestore.collection(colName).where("category",isEqualTo: catname);
   }
+
+  Query getAllProduct(){
+  return FireCategories.firestore.collection(colName);
+  }
 }

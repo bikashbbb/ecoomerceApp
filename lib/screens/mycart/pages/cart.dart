@@ -71,6 +71,10 @@ class ProductLoader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return ProductForYou(fireCart.getAllProducts(),isInCart: true,);
+    return ProductForYou(
+      fireCart.getAllProducts(),
+      PageStorageKey("new"),
+      isInCart: true,
+    );
   }
 }

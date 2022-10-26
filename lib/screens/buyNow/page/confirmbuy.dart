@@ -44,8 +44,10 @@ class ConfirmBuy extends ConsumerWidget {
                 } else {
                   locEmpty.value = false;
                   // loader will come in the
-                  ConfirmBuyControlls.onConfirmClicked(orderDetails, product);
-                  showLoaderDialog(context, "Creating Order");
+                  orderDetails.location = _adress.text;
+                  orderDetails.email = _email.text;
+                  ConfirmBuyControlls().onConfirmClicked(orderDetails, product,context);
+                  
                 }
               },
               child: Text(

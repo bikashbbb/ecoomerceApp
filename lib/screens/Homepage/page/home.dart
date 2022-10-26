@@ -16,6 +16,7 @@ import 'package:herb/screens/Homepage/page/bottomnav.dart';
 import 'package:herb/screens/mycart/pages/cart.dart';
 import 'package:herb/screens/myorders/page/orders.dart';
 import 'package:sizer/sizer.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 final homeRef =
     ChangeNotifierProvider<HomeControlls>(((ref) => HomeControlls()));
@@ -24,7 +25,7 @@ final homeRef =
 class HomePage extends ConsumerWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final List _pages = [ProductPage(), const CategoryPage(), const MyOrders()];
+  final List _pages = [ProductPage(), CategoryPage(), MyOrders()];
 
   @override
   Widget build(BuildContext context, ref) {
@@ -39,122 +40,101 @@ class HomePage extends ConsumerWidget {
 }
 
 class ProductPage extends ConsumerWidget {
-  const ProductPage({Key? key}) : super(key: key);
+  ProductPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
     final con = ref.watch(homeRef);
     return Scaffold(
-      body: DefaultTabController(
-          length: 1,
-          child: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    pinned: true,
-                    snap: true,
-                    bottom: TabBar(
-                      indicatorColor: mainC,
-                      tabs: [
-                        Tab(
-                          // textfield
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 12.w, right: 12.w),
-                              child: textFieldMaker("Search by Keyword",
-                                  TextEditingController())),
-                        ),
-                      ],
-                    ),
-                    floating: true,
-                    systemOverlayStyle: SystemUiOverlayStyle(
-                      // Status bar color
-                      statusBarColor: mainC,
-                      statusBarIconBrightness: Brightness.dark,
-                      statusBarBrightness: Brightness.light,
-                    ),
-                    backgroundColor: mainC,
-                    leadingWidth: 25.sp,
-                    leading: iconMaker(myAccIcon, 30.sp, secC),
-                    title: Text(
-                      con.user,
-                      style: secheader,
-                    ),
-                    actions: [
-                      favouriteS(),
-                      SizedBox(
-                        width: 3.w,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (builder) {
-                              return  CartPage();
-                            }));
-                          },
-                          child: shop()),
-                      SizedBox(
-                        width: 5.w,
-                      )
-                    ],
-                  ),
-                ];
-              },
-              body: _categoryStore(context))),
-    );
+        appBar: AppBar(
+          actions: [
+            // favouriteS(),
+            SizedBox(
+              width: 3.w,
+            ),
+            InkWell(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (builder) {
+                    return CartPage();
+                  }));
+                },
+                child: shop()),
+            SizedBox(
+              width: 5.w,
+            )
+          ],
+          systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: mainC,
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+          ),
+          backgroundColor: mainC,
+          leading: iconMaker(myAccIcon, 30.sp, secC),
+          title: Padding(
+              padding: EdgeInsets.only(left: 10.w, bottom: 10, top: 10),
+              child: SizedBox(
+                  height: 8.h,
+                  child: textFieldMaker(
+                      "Search by Keyword", TextEditingController()))),
+        ),
+        body: _categoryStore(
+            context) /*  ProductForYou(ItemsPerCat().getAllProduct(), _homeKey) */);
   }
 
   Widget _categoryStore(BuildContext ctx) {
     final fire = ItemsPerCat();
     // this will be a grid view 3 ta wala .. data from firebase
-    return Scaffold(
-        body: Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // mathi chai euta logo janxa pasal ko !
-            Row(
-              children: [
-                Expanded(child: banner()),
-              ],
-            ),
-            // we will have a fucking grid view here cat ko lagi 3 taaaa
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 1.w),
-                  child: Text(
-                    "Category",
-                    style: secheader,
+    return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          key: const PageStorageKey(3),
+          child: Column(
+            children: [
+              // mathi chai euta logo janxa pasal ko !
+              Row(
+                children: [
+                  Expanded(child: banner()),
+                ],
+              ),
+              // we will have a fucking grid view here cat ko lagi 3 taaaa
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 1.w),
+                    child: Text(
+                      "Category",
+                      style: secheader,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 2,
-                ),
-                Icon(
-                  Icons.double_arrow_outlined,
-                  size: iconFont,
-                )
-              ],
-            ),
-            HomeCategory(),
-            Container(
-                width: 44.w,
-                alignment: Alignment.center,
-                decoration: pForYou,
-                child: Text(
-                  "Products For You",
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.sp),
-                )),
-            ProductForYou(
-              fire.getProduct("Brand"),
-            )
-          ],
-        ),
-      ),
-    ));
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Icon(
+                    Icons.double_arrow_outlined,
+                    size: iconFont,
+                  )
+                ],
+              ),
+              HomeCategory(),
+              Container(
+                  width: 44.w,
+                  alignment: Alignment.center,
+                  decoration: pForYou,
+                  child: Text(
+                    "Products For You",
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.sp),
+                  )),
+              ProductForYou(fire.getAllProduct(), _homeKey)
+            ],
+          ),
+        ));
   }
 }
+
+PageStorageBucket pageStorageBucket = PageStorageBucket();
+final _homeKey = PageStorageKey("homepage");
