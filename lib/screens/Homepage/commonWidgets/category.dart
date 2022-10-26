@@ -173,6 +173,30 @@ Widget textFieldMaker(String hint, TextEditingController con,
   );
 }
 
+
+Widget textFieldMaker2(String hint, TextEditingController con,
+IconData email
+  ) {
+  return TextField(
+    controller: con,
+    keyboardType:TextInputType.text,
+    decoration: InputDecoration(
+      prefixIcon:Padding(
+              padding: EdgeInsets.only(bottom: 1.h),
+              child: iconMaker(email, iconFont, secC),
+            ),
+         
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: secC, width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: secC, width: 1.0),
+      ),
+      hintText: hint,
+    ),
+  );
+}
+
 class MainButton extends StatelessWidget {
   const MainButton({Key? key}) : super(key: key);
 

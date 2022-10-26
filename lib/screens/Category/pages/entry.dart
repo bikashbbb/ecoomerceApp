@@ -10,6 +10,7 @@ import 'package:herb/screens/Category/models/product.dart';
 import 'package:herb/screens/Homepage/commonWidgets/productcard.dart';
 import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/Homepage/models/models.dart';
+import 'package:herb/screens/buyNow/page/buy.dart';
 import 'package:sizer/sizer.dart';
 import '../../Homepage/commonWidgets/category.dart';
 
@@ -120,8 +121,9 @@ class _ProductForYou extends ConsumerWidget {
 
 class ProductForYou extends ConsumerWidget {
   final Query query;
-
-  const ProductForYou(this.query, {Key? key}) : super(key: key);
+  final bool isInCart;
+  const ProductForYou(this.query, {Key? key, this.isInCart = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -143,9 +145,24 @@ class ProductForYou extends ConsumerWidget {
                 if (snaps.hasData) {
                   final product = Product.toObj(
                       snaps.docs[0].data()! as Map, snaps.docs[0].id);
-                  return ProductCard(product, () {
-                    con.addToCart(product);
-                  }, index: index);
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (builder) {
+                        return BuyPage(product);
+                      }));
+                    },
+                    child: ProductCard(
+                      product,
+                      () {
+                        isInCart
+                            ? con.removeFcart(product)
+                            : con.addToCart(product);
+                      },
+                      index: index,
+                      isCartPage: isInCart,
+                    ),
+                  );
                 }
                 //loader
                 return const SizedBox();

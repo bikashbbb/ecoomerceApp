@@ -39,7 +39,7 @@ class HomePage extends ConsumerWidget {
 }
 
 class ProductPage extends ConsumerWidget {
-  ProductPage({Key? key}) : super(key: key);
+  const ProductPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {

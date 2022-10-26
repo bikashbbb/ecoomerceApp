@@ -59,9 +59,9 @@ class CartPage extends ConsumerWidget {
   }
 }
 
-final counterProvider = StateNotifierProvider((ref) {
+/* final counterProvider = StateNotifierProvider((ref) {
   return CartItems();
-});
+}); */
 
 class ProductLoader extends ConsumerWidget {
   // yesma product haru fetch hudai load hunxa !
@@ -71,7 +71,6 @@ class ProductLoader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final con = ref.watch(counterProvider);
-    return ProductForYou(fireCart.getAllProducts());
+    return ProductForYou(fireCart.getAllProducts(),isInCart: true,);
   }
 }

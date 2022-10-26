@@ -41,20 +41,29 @@ class LoginDetails {
   static get userid {
     return FirebaseAuth.instance.currentUser!.uid.toString();
   }
+
+  static get phoneNum {
+    return FirebaseAuth.instance.currentUser!.phoneNumber.toString();
+  }
 }
 
 class ProductFuncs {
-  final String _col = "cart";
+  final String _col = "allproducts";
   //
   Future<void> addToCart(String uid, String pid) async {
     // paila check if the pid is init or not !
-    final batch = FirebaseFirestore.instance.batch();
+    DocumentReference ref = FireCategories.firestore.collection(_col).doc(pid);
+    await ref.update({
+      "cart": FieldValue.arrayUnion([uid])
+    });
+  }
 
-    DocumentReference ref = FireCategories.firestore.collection(_col).doc(uid);
-
-    batch.set(ref, {"itemcount": 1});
-    batch.set(ref.collection("all").doc(), {"pid": pid});
-
-    await batch.commit();
+  Future<void> removeFromCart(String uid, String pid) async {
+    DocumentReference ref = FireCategories.firestore.collection(_col).doc(pid);
+    await ref.update({
+      "cart": FieldValue.arrayRemove([uid])
+    });
   }
 }
+// order vanne sec in ProductsForYou
+// ani order details pani hunxa !

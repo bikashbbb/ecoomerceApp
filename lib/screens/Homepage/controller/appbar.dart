@@ -51,4 +51,8 @@ class ProductControlls extends ChangeNotifier {
       // tei signup page
     }
   }
+
+  void removeFcart(Product product) {
+    productFuncs.removeFromCart(LoginDetails.userid, product.id);
+  }
 }

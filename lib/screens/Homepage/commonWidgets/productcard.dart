@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
@@ -14,12 +15,14 @@ final productControlls =
 class ProductCard extends StatefulWidget {
   final Product product;
   final Function ontap;
+  final bool isCartPage;
   int? index;
 
   ProductCard(
     this.product,
     this.ontap, {
     this.index,
+    this.isCartPage = false,
     Key? key,
   }) : super(key: key);
 
@@ -44,9 +47,10 @@ class _ProductCardState extends State<ProductCard> {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                widget.product.imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: widget.product.imageUrl,
                 fit: BoxFit.cover,
+                
               ),
             ),
             Padding(
@@ -76,20 +80,28 @@ class _ProductCardState extends State<ProductCard> {
                 InkWell(
                     onTap: () async {
                       widget.ontap();
-                      setState(() {
-                        _clickedIndex = widget.index;
-                      });
-                      Future.delayed(const Duration(milliseconds: 500), () {
+                      if (!widget.isCartPage) {
                         setState(() {
-                          _clickedIndex = null;
+                          _clickedIndex = widget.index;
                         });
-                      });
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          setState(() {
+                            _clickedIndex = null;
+                          });
+                        });
+                      }
                     },
-                    child: ShakeWidget(
-                        autoPlay: _clickedIndex == widget.index ? true : false,
-                        shakeConstant: ShakeHorizontalConstant1(),
-                        duration: const Duration(milliseconds: 3),
-                        child: const Icon(Icons.add_shopping_cart))),
+                    child: widget.isCartPage
+                        ? const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )
+                        : ShakeWidget(
+                            autoPlay:
+                                _clickedIndex == widget.index ? true : false,
+                            shakeConstant: ShakeHorizontalConstant1(),
+                            duration: const Duration(milliseconds: 3),
+                            child: const Icon(Icons.add_shopping_cart))),
               ],
             )
           ],

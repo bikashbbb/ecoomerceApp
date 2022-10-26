@@ -47,6 +47,8 @@ dependencies:
   country_picker: ^2.0.8
   flutter_shake_animated: ^0.0.5
   empty_widget: ^0.0.5
+  quantity_input: ^1.0.2
+
 
 
 dev_dependencies:
