@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:herb/palette/dialog.dart';
 import 'package:herb/screens/Category/models/product.dart';
+import 'package:herb/screens/Homepage/page/home.dart';
 import 'package:herb/screens/buyNow/firebase/buyfire.dart';
 import 'package:herb/screens/buyNow/models/models.dart';
 import 'package:herb/screens/buyNow/page/confirmbuy.dart';
@@ -16,7 +17,7 @@ class BuyControlls {
     else {
       orderDetails.quantity = quantity.text;
       Navigator.of(context).push(MaterialPageRoute(builder: (builder) {
-        return ConfirmBuy(orderDetails, product);
+        return ConfirmBuy(orderDetails, product, "Confirm Order");
       }));
       /* bool isCreated = await _buyFirebase.onBuyNow(pid, orderDetails);
       if (isCreated) {
@@ -30,16 +31,23 @@ class BuyControlls {
 }
 
 class ConfirmBuyControlls {
-  BuyFirebase _buyFirebase = BuyFirebase();
+  final BuyFirebase _buyFirebase = BuyFirebase();
 
   void onConfirmClicked(
-      OrderDetails orderDetails, Product product, BuildContext context)async {
+      OrderDetails orderDetails, Product product, BuildContext context) async {
     showLoaderDialog(context, "Creating Order");
-  bool result = await  _buyFirebase.onBuyNow(orderDetails);
-  if(result){
-    // goto homepage and a snackbar !
-  }else{
-    // show error msg 
-  }
+    bool result = await _buyFirebase.onBuyNow(orderDetails);
+    if (result) {
+      // goto homepage and a snackbar !
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (builder) {
+        return HomePage();
+      }));
+      globalkey2.currentState
+          ?.showSnackBar(SnackBar(content: Text("Order Created Sucessfully")));
+    } else {
+      // show error msg
+      showErrorDialog(context, "Unable to succeed");
+    }
   }
 }

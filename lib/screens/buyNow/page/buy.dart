@@ -64,10 +64,11 @@ class BuyPage extends ConsumerWidget {
                     false,
                     DateTime.now(),
                     null,
-                    0,
-                    int.parse(LoginDetails.phoneNum),
+                    "0",
+                    LoginDetails.phoneNum,
                     "",
-                    "");
+                    "",
+                    null);
                 _buynow.onBuyNowCLicked(_quanityController, context, product.id,
                     orderDetails, product);
               },

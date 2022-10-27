@@ -39,6 +39,8 @@ class HomePage extends ConsumerWidget {
   }
 }
 
+GlobalKey<ScaffoldState> globalkey2 = GlobalKey<ScaffoldState>();
+
 class ProductPage extends ConsumerWidget {
   ProductPage({Key? key}) : super(key: key);
 
@@ -46,6 +48,7 @@ class ProductPage extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final con = ref.watch(homeRef);
     return Scaffold(
+        key: globalkey2,
         appBar: AppBar(
           actions: [
             // favouriteS(),
@@ -137,4 +140,4 @@ class ProductPage extends ConsumerWidget {
 }
 
 PageStorageBucket pageStorageBucket = PageStorageBucket();
-final _homeKey = PageStorageKey("homepage");
+const _homeKey =  PageStorageKey("homepage");

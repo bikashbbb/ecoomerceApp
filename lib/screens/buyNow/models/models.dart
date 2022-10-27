@@ -1,14 +1,17 @@
+import 'package:herb/screens/Homepage/firebase/firebase.dart';
+
 class OrderDetails {
   String productId;
   String totalAmount;
   String quantity;
   bool isDelievered;
   DateTime orderedTime;
-  int delieveryCharge;
+  String delieveryCharge;
   String email;
   DateTime? delieveredTime;
   String? location;
-  int phoneNum;
+  String? phoneNum;
+  String? id;
 
   OrderDetails(
       this.productId,
@@ -19,7 +22,8 @@ class OrderDetails {
       this.delieveredTime,
       this.delieveryCharge,
       this.phoneNum,
-      this.location,this.email);
+      this.location,
+      this.email,this.id);
 
   static Map<String, dynamic> toMap(OrderDetails orderDetails) {
     return {
@@ -30,7 +34,24 @@ class OrderDetails {
       "orderedTime": orderDetails.orderedTime,
       "delieveredTime": orderDetails.delieveredTime,
       "delieveryCharge": orderDetails.delieveryCharge,
-      "location": orderDetails.location
+      "location": orderDetails.location,
+      "phoneNumber": orderDetails.phoneNum
     };
+  }
+
+  static OrderDetails fromMap(snap, id) {
+    return OrderDetails(
+      snap["productId"],
+      snap["totalAmount"],
+      snap["quantity"],
+      snap["isDelievered"],
+      snap["orderedTime"].toDate(),
+      null,
+      snap["delieveryCharge"].toString(),
+      snap["phoneNumber"],
+      snap["location"],
+      "",
+      id
+    );
   }
 }

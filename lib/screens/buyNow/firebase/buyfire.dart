@@ -3,6 +3,14 @@ import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/buyNow/models/models.dart';
 
 class BuyFirebase {
+  static DocumentReference getOrderRef(String pid) {
+    return FireCategories.firestore.collection("allproducts").doc(pid);
+  }
+
+  static DocumentReference getOrderDetailsRef(String id) {
+    return FireCategories.firestore.collection("OrderDetails").doc(id);
+  }
+
   Future<bool> onBuyNow(OrderDetails orderDetails) async {
     // check quanity it cannot be zero''
     // save the location also !
@@ -11,9 +19,7 @@ class BuyFirebase {
 /*       final locationRef =
           FireCategories.firestore.collection("users").doc(LoginDetails.userid);
  */ // save phone email and location bitch next time tei use garne !
-      final orderRef = FireCategories.firestore
-          .collection("allproducts")
-          .doc(orderDetails.productId);
+      final orderRef = getOrderRef(orderDetails.productId);
 
       final orderDetailsRef =
           FireCategories.firestore.collection("OrderDetails").doc();

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutterfire_ui/firestore.dart';
 import 'package:herb/palette/colors.dart';
 import 'package:herb/palette/decorators.dart';
 import 'package:herb/screens/Category/pages/entry.dart';
-import 'package:herb/screens/Homepage/commonWidgets/productcard.dart';
-import 'package:herb/screens/Homepage/page/home.dart';
 import 'package:herb/screens/mycart/commonwid/emptywid.dart';
-import 'package:herb/screens/mycart/controller/cartcontroller.dart';
 import 'package:herb/screens/mycart/firebase/firecart.dart';
 import 'package:sizer/sizer.dart';
 
@@ -73,7 +69,7 @@ class ProductLoader extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     return ProductForYou(
       fireCart.getAllProducts(),
-      PageStorageKey("new"),
+      const PageStorageKey("new"),
       isInCart: true,
     );
   }

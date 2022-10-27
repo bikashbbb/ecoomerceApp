@@ -7,16 +7,22 @@ import 'package:herb/palette/dialog.dart';
 import 'package:herb/screens/Category/models/product.dart';
 import 'package:herb/screens/buyNow/controller/buycon.dart';
 import 'package:herb/screens/buyNow/models/models.dart';
+import 'package:herb/screens/myorders/page/orders.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Homepage/commonWidgets/category.dart';
+import '../../myorders/Controller/fireorders.dart';
 
 class ConfirmBuy extends ConsumerWidget {
-  ValueNotifier<bool> locEmpty = ValueNotifier(false);
+  final ValueNotifier<bool> locEmpty = ValueNotifier(false);
 
   final OrderDetails orderDetails;
   final Product product;
-  ConfirmBuy(this.orderDetails, this.product, {Key? key}) : super(key: key);
+  final String buttonName;
+  final bool isOrderPage;
+  ConfirmBuy(this.orderDetails, this.product, this.buttonName,
+      {Key? key, this.isOrderPage = false})
+      : super(key: key);
 
   final _adress = TextEditingController();
   final _email = TextEditingController(); // location ,
@@ -39,19 +45,34 @@ class ConfirmBuy extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(32.0)),
               ),
               onPressed: () {
-                if (_adress.text.isEmpty) {
-                  locEmpty.value = true;
+                if (isOrderPage) {
+                  // cancel order !
+
+                  showYesNoDialog(context, "Are you sure to cancel the order?",
+                      () async {
+                    print("clicked");
+                    Navigator.of(context).pop();
+                    showLoaderDialog(context, "Cancelling Order");
+                    await FireOrders.cancelOrder(
+                        orderDetails.productId, orderDetails.id!);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
                 } else {
-                  locEmpty.value = false;
-                  // loader will come in the
-                  orderDetails.location = _adress.text;
-                  orderDetails.email = _email.text;
-                  ConfirmBuyControlls().onConfirmClicked(orderDetails, product,context);
-                  
+                  if (_adress.text.isEmpty) {
+                    locEmpty.value = true;
+                  } else {
+                    locEmpty.value = false;
+                    // loader will come in the
+                    orderDetails.location = _adress.text;
+                    orderDetails.email = _email.text;
+                    ConfirmBuyControlls()
+                        .onConfirmClicked(orderDetails, product, context);
+                  }
                 }
               },
               child: Text(
-                'Confirm Order',
+                buttonName,
                 style: buyNowStyle,
               ),
             )
@@ -71,7 +92,7 @@ class ConfirmBuy extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // adress and email
-            _adressEmail(),
+            isOrderPage ? const SizedBox() : _adressEmail(),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
@@ -224,7 +245,10 @@ class ConfirmBuy extends ConsumerWidget {
 class OrderCart extends StatelessWidget {
   final Product product;
   final String quantity;
-  const OrderCart(this.product, this.quantity, {Key? key}) : super(key: key);
+  final bool hasQuantity;
+  const OrderCart(this.product, this.quantity,
+      {Key? key, this.hasQuantity = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -270,13 +294,15 @@ class OrderCart extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Quantity: $quantity",
-                    style: subtitleStyle,
-                  ),
-                )
+                hasQuantity
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "Quantity: $quantity",
+                          style: subtitleStyle,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
           ],

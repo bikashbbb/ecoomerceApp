@@ -120,7 +120,7 @@ class _ProductForYou extends ConsumerWidget {
   }
 }
 
-class ProductForYou extends StatefulWidget {
+class ProductForYou extends ConsumerWidget {
   final Query query;
   final bool isInCart;
   final PageStorageKey value;
@@ -128,31 +128,21 @@ class ProductForYou extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ProductForYou> createState() => _ProductForYouState();
-}
+  Widget build(BuildContext context, ref) {
+    final con = ref.watch(productControlls);
 
-class _ProductForYouState extends State<ProductForYou>
-    with AutomaticKeepAliveClientMixin<ProductForYou> {
-  @override
-  Widget build(BuildContext context) {
-    //final con = ref.watch(productControlls);
-    super.build(context);
-
-    return FirestoreQueryBuilder(
-        key: widget.value,
-        query: widget.query,
+    return FirestoreQueryBuilder(        query: query,
         builder: (ctx, snaps, child) {
           /* snaps.docs[index]
           final product = Product.toObj(); */
           return GridView.builder(
-              key: PageStorageKey(0),
-
+              key: const PageStorageKey(0),
               //key: widget.value,
               primary: false, // add this line
               shrinkWrap: true,
               //physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
-              itemCount: 6,
+              itemCount: snaps.docs.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 0.7, crossAxisCount: 2),
               itemBuilder: (ctx, index) {
@@ -169,12 +159,12 @@ class _ProductForYouState extends State<ProductForYou>
                     child: ProductCard(
                       product,
                       () {
-                        /* isInCart
+                        isInCart
                             ? con.removeFcart(product)
-                            : con.addToCart(product); */
+                            : con.addToCart(product);
                       },
                       index: index,
-                      isCartPage: widget.isInCart,
+                      isCartPage: isInCart,
                     ),
                   );
                 }
