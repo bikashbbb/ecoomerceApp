@@ -16,7 +16,6 @@ import 'package:herb/screens/Homepage/page/bottomnav.dart';
 import 'package:herb/screens/mycart/pages/cart.dart';
 import 'package:herb/screens/myorders/page/orders.dart';
 import 'package:sizer/sizer.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 final homeRef =
     ChangeNotifierProvider<HomeControlls>(((ref) => HomeControlls()));
@@ -42,7 +41,7 @@ class HomePage extends ConsumerWidget {
 GlobalKey<ScaffoldState> globalkey2 = GlobalKey<ScaffoldState>();
 
 class ProductPage extends ConsumerWidget {
-  ProductPage({Key? key}) : super(key: key);
+  const ProductPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {

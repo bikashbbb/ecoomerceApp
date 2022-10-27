@@ -8,6 +8,19 @@ class FireCategories {
   static late CollectionReference _queryoutput;
 
   final Query = firestore.collection("Categories");
+
+  Future<int?> getCatIndex(String cat) async {
+    final docsRef = await Query.get();
+    int i = 0;
+
+    for (var element in docsRef.docs) {
+
+      if (cat == element.id) {
+        return i;
+      }
+      i++;
+    }
+  }
 }
 
 class FireProductForYou {

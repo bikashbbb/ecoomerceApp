@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:herb/palette/colors.dart';
 import 'package:herb/palette/decorators.dart';
+import 'package:herb/palette/dialog.dart';
 import 'package:herb/palette/icons.dart';
 import 'package:herb/palette/sizes.dart';
 import 'package:herb/screens/Category/controller/dropdownc.dart';
+import 'package:herb/screens/Category/pages/entry.dart';
 import 'package:herb/screens/Homepage/firebase/firebase.dart';
 import 'package:herb/screens/Homepage/models/models.dart';
+import 'package:herb/screens/Homepage/page/bottomnav.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutterfire_ui/firestore.dart';
 
@@ -20,6 +23,8 @@ class HomeCategory extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // home ma vako category as in gridview gets data from firebase ani grid ma 3X3
+    final navCon = ref.watch(navController);
+    final catCon = ref.watch(catref);
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
       child: SizedBox(
@@ -30,7 +35,7 @@ class HomeCategory extends ConsumerWidget {
               query: obj.Query,
               builder: (ctx, snaps, child) {
                 return GridView.builder(
-                    key: PageStorageKey(1),
+                    key: const PageStorageKey(1),
                     physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     itemCount: 9,
@@ -39,10 +44,24 @@ class HomeCategory extends ConsumerWidget {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: 1.5, crossAxisCount: 3),
                     itemBuilder: (ctx, index) {
-                      //
+                      // - category sakkaune ani ! admin panel sakkaune )
                       if (snaps.hasData) {
                         String catname = snaps.docs[index].get('name');
-                        return CatCard(catname, "");
+                        return InkWell(
+                            onTap: () async {
+                              print("collection clicked");
+                              // change the page index !
+                              showLoaderDialog(context, "Loading");
+                              // firest ma
+
+                              final indx = await obj.getCatIndex(catname);
+
+                              catCon.changeIndex(indx!);
+                              catCon.setCatSelected = catname;
+                              Navigator.pop(context);
+                              navCon.chnageNavIndex(1);
+                            },
+                            child: CatCard(catname, ""));
                       }
                       return const SizedBox();
                     });

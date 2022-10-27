@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class CatMenuBarCon extends ChangeNotifier {
   int _clickedIndex = 0;
-  String _catSelected = "Brand";
+  String _catSelected = "Brands";
 
   get clickedIndex {
     return _clickedIndex;
